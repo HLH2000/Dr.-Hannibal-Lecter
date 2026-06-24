@@ -1,5 +1,4 @@
 import streamlit as st
-import streamlit.components.v1 as components
 import random
 import json
 
@@ -608,7 +607,7 @@ setTimeout(resize,150); setTimeout(resize,600); window.addEventListener('load',(
 
     n_rows_est = 1
     iframe_h = 240
-    components.html(hand_html, height=iframe_h)
+    st.iframe(hand_html, height=iframe_h)
 
 st.divider()
 
