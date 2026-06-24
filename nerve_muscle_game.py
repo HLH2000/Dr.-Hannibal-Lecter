@@ -1,8 +1,7 @@
 import streamlit as st
-
+import streamlit.components.v1 as components
 import random
 import json
-from urllib.parse import quote
 
 # ══════════════════════════════════════════════
 # 頁面設定
@@ -97,7 +96,7 @@ BASE_SCORE = 50
 
 
 # ══════════════════════════════════════════════
-# query_params 讀寫（JS 寫 selected，Python 讀）
+# query_params 讀寫輔助（JS 寫 selected，Python 讀）
 # ══════════════════════════════════════════════
 def read_selected() -> set:
     raw = st.query_params.get("sel", "")
@@ -105,15 +104,8 @@ def read_selected() -> set:
         return set()
     return set(raw.split(SEP))
 
-def write_selected(sel: set):
-    if sel:
-        st.query_params["sel"] = SEP.join(sorted(sel))
-    else:
-        st.query_params.pop("sel", None)
-
 def read_img_mode() -> str:
     return st.query_params.get("img_mode", "text")
-
 
 # ══════════════════════════════════════════════
 # 初始化
@@ -139,62 +131,67 @@ def init_game():
 if "game_init" not in st.session_state:
     init_game()
 
-selected  = read_selected()
-img_mode  = read_img_mode()   # "text" or "diagram"
-
-# ── 處理 action（放入） ──
-action = st.query_params.get("action", "")
-if action.startswith("place_"):
-    nerve_id = action[len("place_"):]
-    if nerve_id in NERVE_KEY_TO_NERVE:
-        placed  = st.session_state.placed
-        scored  = st.session_state.scored_keys
-        result  = st.session_state.result
-        count   = 0
-        if not selected:
-            st.session_state.message = "⚠️ 請先點選手牌卡片！"
-            st.session_state.message_type = "warning"
-        else:
-            for mid in list(selected):
-                m = MUSCLE_MAP.get(mid)
-                if not m:
-                    continue
-                if mid in placed[nerve_id]:
-                    continue
-                # 非雙重神經支配：先從其他分類移除（未批改的）
-                if not m["dual"]:
-                    for other_nid in NERVE_KEYS:
-                        if other_nid != nerve_id and mid in placed[other_nid]:
-                            key = f"{mid}|{other_nid}"
-                            if key in scored:
-                                continue
-                            placed[other_nid].remove(mid)
-                            result.pop(key, None)
-                placed[nerve_id].append(mid)
-                result.pop(f"{mid}|{nerve_id}", None)
-                count += 1
-            write_selected(set())
-            if count:
-                nname = NERVE_KEY_TO_NERVE[nerve_id]["zh"]
-                st.session_state.message = f"✅ 成功放入 {count} 張至【{nname}】"
-                st.session_state.message_type = "success"
-            else:
-                st.session_state.message = "⚠️ 所選卡片已在此神經區或已鎖定"
-                st.session_state.message_type = "warning"
-    st.query_params.pop("action", None)
-    st.rerun()
-
-# ── 切換圖片模式 ──
-if st.query_params.get("action") == "toggle_img":
-    new_mode = "diagram" if img_mode == "text" else "text"
-    st.query_params["img_mode"] = new_mode
-    st.query_params.pop("action", None)
-    st.rerun()
+selected = read_selected()
+img_mode = read_img_mode()  # "text" or "diagram"
 
 
 # ──────────────────────────────────────────────
-# 輔助函式
+# 核心邏輯 (使用 On_click Callbacks，避免 rerun 死結)
 # ──────────────────────────────────────────────
+
+def place_cards(nerve_id: str):
+    """將選中的手牌放入目標神經區"""
+    placed  = st.session_state.placed
+    scored  = st.session_state.scored_keys
+    result  = st.session_state.result
+    
+    # 直接在回呼中讀取並清空當前的 URL selected 狀態
+    sel_raw = st.query_params.get("sel", "")
+    current_selected = set(sel_raw.split(SEP)) if sel_raw else set()
+
+    if not current_selected:
+        st.session_state.message = "⚠️ 請先點選手牌卡片！"
+        st.session_state.message_type = "warning"
+        return
+
+    count = 0
+    for mid in list(current_selected):
+        m = MUSCLE_MAP.get(mid)
+        if not m:
+            continue
+        if mid in placed[nerve_id]:
+            continue
+        
+        # 非雙重神經支配：先從其他分類移除（未批改的）
+        if not m["dual"]:
+            for other_nid in NERVE_KEYS:
+                if other_nid != nerve_id and mid in placed[other_nid]:
+                    key = f"{mid}|{other_nid}"
+                    if key in scored:
+                        continue
+                    placed[other_nid].remove(mid)
+                    result.pop(key, None)
+                    
+        placed[nerve_id].append(mid)
+        result.pop(f"{mid}|{nerve_id}", None)
+        count += 1
+        
+    # 清空選擇參數
+    st.query_params.pop("sel", None)
+
+    if count:
+        nname = NERVE_KEY_TO_NERVE[nerve_id]["zh"]
+        st.session_state.message = f"✅ 成功放入 {count} 張至【{nname}】"
+        st.session_state.message_type = "success"
+    else:
+        st.session_state.message = "⚠️ 所選卡片已在此神經區或已鎖定"
+        st.session_state.message_type = "warning"
+
+def toggle_img_mode():
+    """切換手牌顯示圖片模式"""
+    current = st.query_params.get("img_mode", "text")
+    st.query_params["img_mode"] = "diagram" if current == "text" else "text"
+
 def get_remaining() -> list:
     placed = st.session_state.placed
     out = []
@@ -217,10 +214,6 @@ def get_wrong_pairs() -> list:
         if result.get(f"{mid}|{nid}") == "wrong"
     ]
 
-
-# ──────────────────────────────────────────────
-# Callbacks
-# ──────────────────────────────────────────────
 def remove_card(mid: str, nid: str):
     if st.session_state.locked:
         return
@@ -289,8 +282,7 @@ def do_return_wrong():
     st.session_state.message_type = "info"
 
 def restart_game():
-    for k in list(st.session_state.keys()):
-        del st.session_state[k]
+    st.session_state.clear()
     st.query_params.clear()
 
 
@@ -491,8 +483,7 @@ with hcol1:
         unsafe_allow_html=True,
     )
 with hcol2:
-    st.button(img_mode_label, key="toggle_img_btn",
-              on_click=lambda: st.query_params.update({"action": "toggle_img"}))
+    st.button(img_mode_label, key="toggle_img_btn", on_click=toggle_img_mode)
 
 if not rem_cards:
     st.markdown(
@@ -617,7 +608,7 @@ setTimeout(resize,150); setTimeout(resize,600); window.addEventListener('load',(
 
     n_rows_est = 1
     iframe_h = 240
-    st.iframe(hand_html, height=iframe_h)
+    components.html(hand_html, height=iframe_h)
 
 st.divider()
 
@@ -656,11 +647,12 @@ for col_widget, nerve_list in [(col_l, left_nerves), (col_r, right_nerves)]:
                 unsafe_allow_html=True,
             )
 
-            # Place button
+            # Place button (直接使用 Callback)
             st.button(
                 f"📥 放入【{nerve['zh']}】",
                 key=f"put_{nid}",
-                on_click=lambda k=nid: st.query_params.update({"action": f"place_{k}"}),
+                on_click=place_cards,
+                args=(nid,),
                 use_container_width=True,
             )
 
@@ -717,9 +709,7 @@ with b1:
               disabled=st.session_state.locked,
               on_click=submit_answers, use_container_width=True)
 with b2:
-    if st.button("🔄 重新開始", use_container_width=True):
-        restart_game()
-        st.rerun()
+    st.button("🔄 重新開始", use_container_width=True, on_click=restart_game)
 
 st.markdown(
     f'<div style="text-align:center;color:#94a3b8;font-size:0.72rem;margin-top:6px;">'
