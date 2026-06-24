@@ -14,7 +14,7 @@ st.set_page_config(
 )
 
 # ─────────────── GitHub 圖片路徑 ───────────────
-GITHUB_BASE   = "https://github.com/HLH2000/Dr.-Hannibal-Lecter.git"
+GITHUB_BASE   = "https://raw.githubusercontent.com/HLH2000/Dr.-Hannibal-Lecter/main/"
 MUSCLE_BASE   = GITHUB_BASE + "muscle/"
 NERVE_BASE    = GITHUB_BASE + "nerve/"
 
