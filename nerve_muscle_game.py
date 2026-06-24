@@ -131,11 +131,11 @@ if "game_init" not in st.session_state:
     init_game()
 
 selected = read_selected()
-img_mode = read_img_mode()  # "text" or "diagram"
+img_mode = read_img_mode()
 
 
 # ──────────────────────────────────────────────
-# 核心邏輯 (使用 On_click Callbacks，避免 rerun 死結)
+# 核心邏輯 (使用 On_click Callbacks)
 # ──────────────────────────────────────────────
 
 def place_cards(nerve_id: str):
@@ -144,7 +144,6 @@ def place_cards(nerve_id: str):
     scored  = st.session_state.scored_keys
     result  = st.session_state.result
     
-    # 直接在回呼中讀取並清空當前的 URL selected 狀態
     sel_raw = st.query_params.get("sel", "")
     current_selected = set(sel_raw.split(SEP)) if sel_raw else set()
 
@@ -508,44 +507,44 @@ else:
     locked_json = json.dumps(st.session_state.locked)
     sep_json    = json.dumps(SEP)
 
-    # ── JS iframe：橫向捲動手牌 (放大的卡片尺寸) ──
+    # ── JS iframe：橫向捲動手牌 (放大的卡片尺寸與保留安全間距) ──
     hand_html = f"""<!DOCTYPE html>
 <html><head><meta charset="utf-8">
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;700;900&display=swap');
 *{{box-sizing:border-box;margin:0;padding:0;font-family:'Noto Sans TC',sans-serif;}}
-body{{background:transparent;padding:4px 0 6px;overflow-x:auto;overflow-y:hidden;}}
+body{{background:transparent;padding:6px 4px 24px 4px;overflow-x:auto;overflow-y:hidden;}}
 .hint{{color:#475569;font-size:0.7rem;font-weight:600;margin-bottom:6px;padding-left:4px;}}
-.row{{display:flex;flex-wrap:nowrap;gap:8px;padding:0 4px 6px;width:max-content;}}
+.row{{display:flex;flex-wrap:nowrap;gap:12px;padding:4px 4px 10px;width:max-content;}}
 .card{{
-  flex-shrink:0;width:190px;border-radius:10px;overflow:visible;
-  border:2.5px solid #94a3b8;background:white;cursor:pointer;position:relative;
-  box-shadow:0 2px 8px rgba(0,0,0,0.08);
+  flex-shrink:0;width:240px;border-radius:12px;overflow:visible;
+  border:3px solid #94a3b8;background:white;cursor:pointer;position:relative;
+  box-shadow:0 3px 10px rgba(0,0,0,0.1);
   transition:border-color 0.12s,box-shadow 0.12s;user-select:none;
 }}
 .card.sel{{
   border-color:#B91C1C !important;
-  box-shadow:0 0 0 3px rgba(185,28,28,0.18),0 4px 14px rgba(185,28,28,0.15);
+  box-shadow:0 0 0 4px rgba(185,28,28,0.18),0 6px 18px rgba(185,28,28,0.15);
 }}
 .card.dual{{ border-color:#6D28D9; }}
 .card.dual.sel{{ border-color:#B91C1C !important; }}
 .card.locked-card{{opacity:0.5;cursor:default;}}
-.img-box{{width:100%;padding-top:100%;position:relative;overflow:hidden;border-radius:7px 7px 0 0;}}
+.img-box{{width:100%;padding-top:100%;position:relative;overflow:hidden;border-radius:9px 9px 0 0;}}
 .img-box img{{position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;display:block;pointer-events:none;}}
-.lbl{{background:white;border-top:1.5px solid #e5e7eb;padding:6px 4px;text-align:center;border-radius:0 0 7px 7px;}}
-.lbl .zh{{font-size:15px;font-weight:700;color:#1e293b;line-height:1.3;}}
-.lbl .en{{font-size:11px;color:#64748b;line-height:1.3;}}
+.lbl{{background:white;border-top:2px solid #e5e7eb;padding:8px 6px;text-align:center;border-radius:0 0 9px 9px;}}
+.lbl .zh{{font-size:18px;font-weight:700;color:#1e293b;line-height:1.3;}}
+.lbl .en{{font-size:13px;color:#64748b;line-height:1.3;margin-top:2px;}}
 .badge-sel{{
-  position:absolute;top:-8px;right:-8px;z-index:20;
+  position:absolute;top:-10px;right:-10px;z-index:20;
   background:#B91C1C;color:#fff;border-radius:50%;
-  width:26px;height:26px;display:flex;align-items:center;justify-content:center;
-  font-size:14px;font-weight:900;border:2px solid white;
-  box-shadow:0 2px 6px rgba(0,0,0,0.2);
+  width:32px;height:32px;display:flex;align-items:center;justify-content:center;
+  font-size:16px;font-weight:900;border:3px solid white;
+  box-shadow:0 3px 8px rgba(0,0,0,0.25);
 }}
 .badge-dual{{
-  position:absolute;top:4px;left:4px;z-index:20;
-  background:#6D28D9;color:#fff;border-radius:4px;
-  padding:2px 6px;font-size:10px;font-weight:800;
+  position:absolute;top:6px;left:6px;z-index:20;
+  background:#6D28D9;color:#fff;border-radius:6px;
+  padding:3px 8px;font-size:12px;font-weight:800;
 }}
 </style></head><body>
 <div class="row" id="row"></div>
@@ -584,7 +583,6 @@ function syncQP(){{
     const url = new URL(window.parent.location.href);
     if(selected.size > 0) url.searchParams.set('sel',[...selected].join(SEP));
     else url.searchParams.delete('sel');
-    // 使用 pushState 修改 URL 並派發 popstate 事件，強制 Streamlit 前端路由立刻同步狀態，避免卡住
     window.parent.history.pushState(null, '', url.toString());
     window.parent.dispatchEvent(new Event('popstate'));
   }}catch(e){{}}
@@ -606,7 +604,7 @@ setTimeout(resize,150); setTimeout(resize,600); window.addEventListener('load',(
 </script></body></html>"""
 
     n_rows_est = 1
-    iframe_h = 320 # 加高 iframe 避免圖片被裁切
+    iframe_h = 420 # 極大化 iframe 高度，徹底防止被裁掉
     st.iframe(hand_html, height=iframe_h)
 
 st.divider()
