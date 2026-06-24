@@ -45,50 +45,50 @@ NERVE_KEY_TO_NERVE = {n["id"]: n for n in NERVES}
 # ─────────────── 肌肉資料 ───────────────
 MUSCLES = [
     {"id": "glut_med",    "zh": "臀中肌",       "en": "Gluteus medius m.",                 "imgs": [1,  2],  "nerves": ["sup_glut"],             "dual": False},
-    {"id": "glut_min",    "zh": "臀小肌",       "en": "Gluteus minimus m.",               "imgs": [3,  4],  "nerves": ["sup_glut"],             "dual": False},
-    {"id": "tfl",         "zh": "擴筋膜張肌",   "en": "Tensor fasciae latae m.",          "imgs": [5,  6],  "nerves": ["sup_glut"],             "dual": False},
-    {"id": "glut_max",    "zh": "臀大肌",       "en": "Gluteus maximus m.",               "imgs": [7,  8],  "nerves": ["inf_glut"],             "dual": False},
-    {"id": "quad_fem",    "zh": "股四頭肌",     "en": "Quadriceps femoris m.",            "imgs": [9,  10], "nerves": ["femoral"],              "dual": False},
-    {"id": "rect_fem",    "zh": "股直肌",       "en": "Rectus femoris m.",                "imgs": [11, 12], "nerves": ["femoral"],              "dual": False},
-    {"id": "vas_lat",     "zh": "股外側肌",     "en": "Vastus lateralis m.",              "imgs": [13, 14], "nerves": ["femoral"],              "dual": False},
-    {"id": "vas_med",     "zh": "股內側肌",     "en": "Vastus medialis m.",               "imgs": [15, 16], "nerves": ["femoral"],              "dual": False},
-    {"id": "vas_int",     "zh": "股中間肌",     "en": "Vastus intermedius m.",            "imgs": [17, 18], "nerves": ["femoral"],              "dual": False},
-    {"id": "sartorius",   "zh": "縫匠肌",       "en": "Sartorius m.",                     "imgs": [19, 20], "nerves": ["femoral"],              "dual": False},
-    {"id": "pectineus",   "zh": "恥骨肌",       "en": "Pectineus m.",                     "imgs": [21, 22], "nerves": ["femoral", "obturator"], "dual": True},
-    {"id": "gracilis",    "zh": "股薄肌",       "en": "Gracilis m.",                      "imgs": [23, 24], "nerves": ["obturator"],            "dual": False},
-    {"id": "add_mag",     "zh": "內收大肌",     "en": "Adductor magnus m.",               "imgs": [25, 26], "nerves": ["obturator", "sciatic"], "dual": True},
-    {"id": "add_lon",     "zh": "內收長肌",     "en": "Adductor longus m.",               "imgs": [27, 28], "nerves": ["obturator"],            "dual": False},
-    {"id": "add_bre",     "zh": "內收短肌",     "en": "Adductor brevis m.",               "imgs": [29, 30], "nerves": ["obturator"],            "dual": False},
+    {"id": "glut_min",    "zh": "臀小肌",       "en": "Gluteus minimus m.",                "imgs": [3,  4],  "nerves": ["sup_glut"],             "dual": False},
+    {"id": "tfl",         "zh": "擴筋膜張肌",   "en": "Tensor fasciae latae m.",           "imgs": [5,  6],  "nerves": ["sup_glut"],             "dual": False},
+    {"id": "glut_max",    "zh": "臀大肌",       "en": "Gluteus maximus m.",                "imgs": [7,  8],  "nerves": ["inf_glut"],             "dual": False},
+    {"id": "quad_fem",    "zh": "股四頭肌",     "en": "Quadriceps femoris m.",             "imgs": [9,  10], "nerves": ["femoral"],              "dual": False},
+    {"id": "rect_fem",    "zh": "股直肌",       "en": "Rectus femoris m.",                 "imgs": [11, 12], "nerves": ["femoral"],              "dual": False},
+    {"id": "vas_lat",     "zh": "股外側肌",     "en": "Vastus lateralis m.",               "imgs": [13, 14], "nerves": ["femoral"],              "dual": False},
+    {"id": "vas_med",     "zh": "股內側肌",     "en": "Vastus medialis m.",                "imgs": [15, 16], "nerves": ["femoral"],              "dual": False},
+    {"id": "vas_int",     "zh": "股中間肌",     "en": "Vastus intermedius m.",             "imgs": [17, 18], "nerves": ["femoral"],              "dual": False},
+    {"id": "sartorius",   "zh": "縫匠肌",       "en": "Sartorius m.",                      "imgs": [19, 20], "nerves": ["femoral"],              "dual": False},
+    {"id": "pectineus",   "zh": "恥骨肌",       "en": "Pectineus m.",                      "imgs": [21, 22], "nerves": ["femoral", "obturator"], "dual": True},
+    {"id": "gracilis",    "zh": "股薄肌",       "en": "Gracilis m.",                       "imgs": [23, 24], "nerves": ["obturator"],            "dual": False},
+    {"id": "add_mag",     "zh": "內收大肌",     "en": "Adductor magnus m.",                "imgs": [25, 26], "nerves": ["obturator", "sciatic"], "dual": True},
+    {"id": "add_lon",     "zh": "內收長肌",     "en": "Adductor longus m.",                "imgs": [27, 28], "nerves": ["obturator"],            "dual": False},
+    {"id": "add_bre",     "zh": "內收短肌",     "en": "Adductor brevis m.",                "imgs": [29, 30], "nerves": ["obturator"],            "dual": False},
     {"id": "bic_lon",     "zh": "股二頭肌長頭", "en": "Biceps femoris (long head)",       "imgs": [31, 32], "nerves": ["tibial"],               "dual": True},
     {"id": "bic_sho",     "zh": "股二頭肌短頭", "en": "Biceps femoris (short head)",      "imgs": [33, 34], "nerves": ["com_fib"],              "dual": True},
-    {"id": "semiten",     "zh": "半腱肌",       "en": "Semitendinosus m.",                "imgs": [35, 36], "nerves": ["sciatic", "tibial"],    "dual": True},
-    {"id": "semimem",     "zh": "半膜肌",       "en": "Semimembranosus m.",               "imgs": [37, 38], "nerves": ["sciatic", "tibial"],    "dual": True},
-    {"id": "fib_lon",     "zh": "腓長肌",       "en": "Fibularis longus m.",              "imgs": [39, 40], "nerves": ["sup_fib"],              "dual": False},
-    {"id": "fib_bre",     "zh": "腓短肌",       "en": "Fibularis brevis m.",              "imgs": [41, 42], "nerves": ["sup_fib"],              "dual": False},
-    {"id": "tib_ant",     "zh": "脛前肌",       "en": "Tibialis anterior m.",             "imgs": [43, 44], "nerves": ["deep_fib"],             "dual": False},
-    {"id": "ext_dig_lon", "zh": "伸趾長肌",     "en": "Extensor digitorum longus m.",     "imgs": [45, 46], "nerves": ["deep_fib"],             "dual": False},
-    {"id": "ext_hal_lon", "zh": "伸姆長肌",     "en": "Extensor hallucis longus m.",      "imgs": [47, 48], "nerves": ["deep_fib"],             "dual": False},
-    {"id": "fib_ter",     "zh": "第三腓骨肌",   "en": "Fibularis tertius m.",             "imgs": [49, 50], "nerves": ["deep_fib"],             "dual": False},
-    {"id": "ext_dig_bre", "zh": "伸趾短肌",     "en": "Extensor digitorum brevis m.",     "imgs": [51, 52], "nerves": ["deep_fib"],             "dual": False},
-    {"id": "ext_hal_bre", "zh": "伸姆短肌",     "en": "Extensor hallucis brevis m.",      "imgs": [53, 54], "nerves": ["deep_fib"],             "dual": False},
-    {"id": "gastro",      "zh": "腓腸肌",       "en": "Gastrocnemius m.",                 "imgs": [55, 56], "nerves": ["tibial"],               "dual": False},
-    {"id": "soleus",      "zh": "比目魚肌",     "en": "Soleus m.",                        "imgs": [57, 58], "nerves": ["tibial"],               "dual": False},
-    {"id": "plantaris",   "zh": "蹠肌",         "en": "Plantaris m.",                     "imgs": [59, 60], "nerves": ["tibial"],               "dual": False},
-    {"id": "tib_pos",     "zh": "脛後肌",       "en": "Tibialis posterior m.",            "imgs": [61, 62], "nerves": ["tibial"],               "dual": False},
-    {"id": "fle_hal_lon", "zh": "屈姆長肌",     "en": "Flexor hallucis longus m.",        "imgs": [63, 64], "nerves": ["tibial"],               "dual": False},
-    {"id": "fle_dig_lon", "zh": "屈趾長肌",     "en": "Flexor digitorum longus m.",       "imgs": [65, 66], "nerves": ["tibial"],               "dual": False},
-    {"id": "poplit",      "zh": "膕肌",         "en": "Popliteus m.",                     "imgs": [67, 68], "nerves": ["tibial"],               "dual": False},
-    {"id": "fle_dig_bre", "zh": "屈趾短肌",     "en": "Flexor digitorum brevis m.",       "imgs": [69, 70], "nerves": ["med_plan"],             "dual": False},
-    {"id": "abd_hal",     "zh": "外展姆肌",     "en": "Abductor hallucis m.",             "imgs": [71, 72], "nerves": ["med_plan"],             "dual": False},
-    {"id": "quad_pla",    "zh": "掌方肌",       "en": "Quadratus plantae m.",             "imgs": [73, 74], "nerves": ["lat_plan"],             "dual": False},
-    {"id": "fle_hal_bre", "zh": "屈姆短肌",     "en": "Flexor hallucis brevis m.",        "imgs": [75, 76], "nerves": ["med_plan"],             "dual": False},
-    {"id": "lumb1",       "zh": "內側第1蚓狀肌","en": "Medial 1st lumbrical m.",          "imgs": [77, 78], "nerves": ["med_plan"],             "dual": False},
-    {"id": "abd_dmi",     "zh": "外展小趾肌",   "en": "Abductor digiti minimi m.",        "imgs": [79, 80], "nerves": ["lat_plan"],             "dual": False},
-    {"id": "fle_dmi_bre", "zh": "屈小趾短肌",   "en": "Flexor digiti minimi brevis m.",   "imgs": [81, 82], "nerves": ["lat_plan"],             "dual": False},
-    {"id": "lumb23",      "zh": "外側1-3蚓狀肌","en": "Lat. 1-3 lumbrical m.",            "imgs": [83, 84], "nerves": ["lat_plan"],             "dual": False},
-    {"id": "add_hal",     "zh": "內收姆肌",     "en": "Adductor hallucis m.",             "imgs": [85, 86], "nerves": ["lat_plan"],             "dual": False},
-    {"id": "plan_int",    "zh": "掌骨中間肌",   "en": "Plantar interosseous m.",          "imgs": [87, 88], "nerves": ["lat_plan"],             "dual": False},
-    {"id": "dors_int",    "zh": "背骨中間肌",   "en": "Dorsal interosseous m.",           "imgs": [89, 90], "nerves": ["lat_plan"],             "dual": False},
+    {"id": "semiten",     "zh": "半腱肌",       "en": "Semitendinosus m.",                 "imgs": [35, 36], "nerves": ["sciatic", "tibial"],    "dual": True},
+    {"id": "semimem",     "zh": "半膜肌",       "en": "Semimembranosus m.",                "imgs": [37, 38], "nerves": ["sciatic", "tibial"],    "dual": True},
+    {"id": "fib_lon",     "zh": "腓長肌",       "en": "Fibularis longus m.",               "imgs": [39, 40], "nerves": ["sup_fib"],              "dual": False},
+    {"id": "fib_bre",     "zh": "腓短肌",       "en": "Fibularis brevis m.",               "imgs": [41, 42], "nerves": ["sup_fib"],              "dual": False},
+    {"id": "tib_ant",     "zh": "脛前肌",       "en": "Tibialis anterior m.",              "imgs": [43, 44], "nerves": ["deep_fib"],             "dual": False},
+    {"id": "ext_dig_lon", "zh": "伸趾長肌",     "en": "Extensor digitorum longus m.",      "imgs": [45, 46], "nerves": ["deep_fib"],             "dual": False},
+    {"id": "ext_hal_lon", "zh": "伸姆長肌",     "en": "Extensor hallucis longus m.",       "imgs": [47, 48], "nerves": ["deep_fib"],             "dual": False},
+    {"id": "fib_ter",     "zh": "第三腓骨肌",   "en": "Fibularis tertius m.",              "imgs": [49, 50], "nerves": ["deep_fib"],             "dual": False},
+    {"id": "ext_dig_bre", "zh": "伸趾短肌",     "en": "Extensor digitorum brevis m.",      "imgs": [51, 52], "nerves": ["deep_fib"],             "dual": False},
+    {"id": "ext_hal_bre", "zh": "伸姆短肌",     "en": "Extensor hallucis brevis m.",       "imgs": [53, 54], "nerves": ["deep_fib"],             "dual": False},
+    {"id": "gastro",      "zh": "腓腸肌",       "en": "Gastrocnemius m.",                  "imgs": [55, 56], "nerves": ["tibial"],               "dual": False},
+    {"id": "soleus",      "zh": "比目魚肌",     "en": "Soleus m.",                         "imgs": [57, 58], "nerves": ["tibial"],               "dual": False},
+    {"id": "plantaris",   "zh": "蹠肌",         "en": "Plantaris m.",                      "imgs": [59, 60], "nerves": ["tibial"],               "dual": False},
+    {"id": "tib_pos",     "zh": "脛後肌",       "en": "Tibialis posterior m.",             "imgs": [61, 62], "nerves": ["tibial"],               "dual": False},
+    {"id": "fle_hal_lon", "zh": "屈姆長肌",     "en": "Flexor hallucis longus m.",         "imgs": [63, 64], "nerves": ["tibial"],               "dual": False},
+    {"id": "fle_dig_lon", "zh": "屈趾長肌",     "en": "Flexor digitorum longus m.",        "imgs": [65, 66], "nerves": ["tibial"],               "dual": False},
+    {"id": "poplit",      "zh": "膕肌",         "en": "Popliteus m.",                      "imgs": [67, 68], "nerves": ["tibial"],               "dual": False},
+    {"id": "fle_dig_bre", "zh": "屈趾短肌",     "en": "Flexor digitorum brevis m.",        "imgs": [69, 70], "nerves": ["med_plan"],             "dual": False},
+    {"id": "abd_hal",     "zh": "外展姆肌",     "en": "Abductor hallucis m.",              "imgs": [71, 72], "nerves": ["med_plan"],             "dual": False},
+    {"id": "quad_pla",    "zh": "掌方肌",       "en": "Quadratus plantae m.",              "imgs": [73, 74], "nerves": ["lat_plan"],             "dual": False},
+    {"id": "fle_hal_bre", "zh": "屈姆短肌",     "en": "Flexor hallucis brevis m.",         "imgs": [75, 76], "nerves": ["med_plan"],             "dual": False},
+    {"id": "lumb1",       "zh": "內側第1蚓狀肌","en": "Medial 1st lumbrical m.",           "imgs": [77, 78], "nerves": ["med_plan"],             "dual": False},
+    {"id": "abd_dmi",     "zh": "外展小趾肌",   "en": "Abductor digiti minimi m.",         "imgs": [79, 80], "nerves": ["lat_plan"],             "dual": False},
+    {"id": "fle_dmi_bre", "zh": "屈小趾短肌",   "en": "Flexor digiti minimi brevis m.",    "imgs": [81, 82], "nerves": ["lat_plan"],             "dual": False},
+    {"id": "lumb23",      "zh": "外側1-3蚓狀肌","en": "Lat. 1-3 lumbrical m.",             "imgs": [83, 84], "nerves": ["lat_plan"],             "dual": False},
+    {"id": "add_hal",     "zh": "內收姆肌",     "en": "Adductor hallucis m.",              "imgs": [85, 86], "nerves": ["lat_plan"],             "dual": False},
+    {"id": "plan_int",    "zh": "掌骨中間肌",   "en": "Plantar interosseous m.",           "imgs": [87, 88], "nerves": ["lat_plan"],             "dual": False},
+    {"id": "dors_int",    "zh": "背骨中間肌",   "en": "Dorsal interosseous m.",            "imgs": [89, 90], "nerves": ["lat_plan"],             "dual": False},
 ]
 MUSCLE_MAP = {m["id"]: m for m in MUSCLES}
 TOTAL_NEEDED = sum(len(m["nerves"]) for m in MUSCLES)
@@ -267,7 +267,7 @@ def submit_answers():
         wp = get_wrong_pairs()
         wnames = "、".join(MUSCLE_MAP[m]["zh"] for m, _ in wp[:5]) + ("…" if len(wp) > 5 else "")
         st.session_state.message = (
-            f"批改完成：✅ 答對 {new_correct} 題　❌ 答錯 {wrong} 題　＋{new_pts} 分"
+            f"批改完成：✅ 答對 {new_correct} 題 ❌ 答錯 {wrong} 題 ＋{new_pts} 分"
             + (f"\n錯誤：{wnames}" if wp else "")
         )
         st.session_state.message_type = "info" if wrong == 0 else "warning"
@@ -486,8 +486,8 @@ hcol1, hcol2 = st.columns([6, 1])
 with hcol1:
     st.markdown(
         f'<div class="section-title">🎴 手牌區 <span class="badge-count">剩 {len(rem_cards)} 張</span>'
-        f'<span style="color:#64748b;font-size:0.72rem;font-weight:600;">　點選卡片（可多選）→ 點下方神經區「📥 放入」</span>'
-        f'<span style="color:#7C3AED;font-size:0.72rem;font-weight:700;">　🔵 紫框 = 雙重神經支配</span></div>',
+        f'<span style="color:#64748b;font-size:0.72rem;font-weight:600;"> 點選卡片（可多選）→ 點下方神經區「📥 放入」</span>'
+        f'<span style="color:#7C3AED;font-size:0.72rem;font-weight:700;"> 🔵 紫框 = 雙重神經支配</span></div>',
         unsafe_allow_html=True,
     )
 with hcol2:
@@ -528,7 +528,7 @@ body{{background:transparent;padding:4px 0 6px;overflow-x:auto;overflow-y:hidden
 .hint{{color:#475569;font-size:0.7rem;font-weight:600;margin-bottom:6px;padding-left:4px;}}
 .row{{display:flex;flex-wrap:nowrap;gap:8px;padding:0 4px 6px;width:max-content;}}
 .card{{
-  flex-shrink:0;width:96px;border-radius:10px;overflow:visible;
+  flex-shrink:0;width:140px;border-radius:10px;overflow:visible;
   border:2.5px solid #94a3b8;background:white;cursor:pointer;position:relative;
   box-shadow:0 2px 8px rgba(0,0,0,0.08);
   transition:border-color 0.12s,box-shadow 0.12s;user-select:none;
@@ -543,8 +543,8 @@ body{{background:transparent;padding:4px 0 6px;overflow-x:auto;overflow-y:hidden
 .img-box{{width:100%;padding-top:100%;position:relative;overflow:hidden;border-radius:7px 7px 0 0;}}
 .img-box img{{position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;display:block;pointer-events:none;}}
 .lbl{{background:white;border-top:1.5px solid #e5e7eb;padding:4px 3px;text-align:center;border-radius:0 0 7px 7px;}}
-.lbl .zh{{font-size:10px;font-weight:700;color:#1e293b;line-height:1.3;}}
-.lbl .en{{font-size:8px;color:#64748b;line-height:1.3;}}
+.lbl .zh{{font-size:13px;font-weight:700;color:#1e293b;line-height:1.3;}}
+.lbl .en{{font-size:10px;color:#64748b;line-height:1.3;}}
 .badge-sel{{
   position:absolute;top:-8px;right:-8px;z-index:20;
   background:#B91C1C;color:#fff;border-radius:50%;
@@ -594,7 +594,9 @@ function syncQP(){{
     const url = new URL(window.parent.location.href);
     if(selected.size > 0) url.searchParams.set('sel',[...selected].join(SEP));
     else url.searchParams.delete('sel');
-    window.parent.history.replaceState(null,'',url.toString());
+    // 使用 pushState 修改 URL 並派發 popstate 事件，強制 Streamlit 前端路由立刻同步狀態，避免卡住
+    window.parent.history.pushState(null, '', url.toString());
+    window.parent.dispatchEvent(new Event('popstate'));
   }}catch(e){{}}
 }}
 
@@ -614,7 +616,7 @@ setTimeout(resize,150); setTimeout(resize,600); window.addEventListener('load',(
 </script></body></html>"""
 
     n_rows_est = 1
-    iframe_h = 180
+    iframe_h = 240
     st.iframe(hand_html, height=iframe_h)
 
 st.divider()
