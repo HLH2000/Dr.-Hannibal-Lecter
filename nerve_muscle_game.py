@@ -508,7 +508,7 @@ else:
     locked_json = json.dumps(st.session_state.locked)
     sep_json    = json.dumps(SEP)
 
-    # ── JS iframe：橫向捲動手牌 ──
+    # ── JS iframe：橫向捲動手牌 (放大的卡片尺寸) ──
     hand_html = f"""<!DOCTYPE html>
 <html><head><meta charset="utf-8">
 <style>
@@ -518,7 +518,7 @@ body{{background:transparent;padding:4px 0 6px;overflow-x:auto;overflow-y:hidden
 .hint{{color:#475569;font-size:0.7rem;font-weight:600;margin-bottom:6px;padding-left:4px;}}
 .row{{display:flex;flex-wrap:nowrap;gap:8px;padding:0 4px 6px;width:max-content;}}
 .card{{
-  flex-shrink:0;width:140px;border-radius:10px;overflow:visible;
+  flex-shrink:0;width:190px;border-radius:10px;overflow:visible;
   border:2.5px solid #94a3b8;background:white;cursor:pointer;position:relative;
   box-shadow:0 2px 8px rgba(0,0,0,0.08);
   transition:border-color 0.12s,box-shadow 0.12s;user-select:none;
@@ -532,20 +532,20 @@ body{{background:transparent;padding:4px 0 6px;overflow-x:auto;overflow-y:hidden
 .card.locked-card{{opacity:0.5;cursor:default;}}
 .img-box{{width:100%;padding-top:100%;position:relative;overflow:hidden;border-radius:7px 7px 0 0;}}
 .img-box img{{position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;display:block;pointer-events:none;}}
-.lbl{{background:white;border-top:1.5px solid #e5e7eb;padding:4px 3px;text-align:center;border-radius:0 0 7px 7px;}}
-.lbl .zh{{font-size:13px;font-weight:700;color:#1e293b;line-height:1.3;}}
-.lbl .en{{font-size:10px;color:#64748b;line-height:1.3;}}
+.lbl{{background:white;border-top:1.5px solid #e5e7eb;padding:6px 4px;text-align:center;border-radius:0 0 7px 7px;}}
+.lbl .zh{{font-size:15px;font-weight:700;color:#1e293b;line-height:1.3;}}
+.lbl .en{{font-size:11px;color:#64748b;line-height:1.3;}}
 .badge-sel{{
   position:absolute;top:-8px;right:-8px;z-index:20;
   background:#B91C1C;color:#fff;border-radius:50%;
-  width:22px;height:22px;display:flex;align-items:center;justify-content:center;
-  font-size:11px;font-weight:900;border:2px solid white;
+  width:26px;height:26px;display:flex;align-items:center;justify-content:center;
+  font-size:14px;font-weight:900;border:2px solid white;
   box-shadow:0 2px 6px rgba(0,0,0,0.2);
 }}
 .badge-dual{{
-  position:absolute;top:3px;left:3px;z-index:20;
+  position:absolute;top:4px;left:4px;z-index:20;
   background:#6D28D9;color:#fff;border-radius:4px;
-  padding:1px 4px;font-size:8px;font-weight:800;
+  padding:2px 6px;font-size:10px;font-weight:800;
 }}
 </style></head><body>
 <div class="row" id="row"></div>
@@ -606,7 +606,7 @@ setTimeout(resize,150); setTimeout(resize,600); window.addEventListener('load',(
 </script></body></html>"""
 
     n_rows_est = 1
-    iframe_h = 240
+    iframe_h = 320 # 加高 iframe 避免圖片被裁切
     st.iframe(hand_html, height=iframe_h)
 
 st.divider()
