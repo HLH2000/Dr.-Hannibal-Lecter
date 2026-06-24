@@ -14,7 +14,7 @@ st.set_page_config(
 )
 
 # ─────────────── GitHub 圖片路徑 ───────────────
-GITHUB_BASE   = "https://raw.githubusercontent.com/HLH2000/Food_Game/main/"
+GITHUB_BASE   = "https://github.com/HLH2000/Dr.-Hannibal-Lecter.git"
 MUSCLE_BASE   = GITHUB_BASE + "muscle/"
 NERVE_BASE    = GITHUB_BASE + "nerve/"
 
@@ -61,8 +61,8 @@ MUSCLES = [
     {"id": "add_bre",     "zh": "內收短肌",     "en": "Adductor brevis m.",               "imgs": [29, 30], "nerves": ["obturator"],            "dual": False},
     {"id": "bic_lon",     "zh": "股二頭肌長頭", "en": "Biceps femoris (long head)",       "imgs": [31, 32], "nerves": ["tibial"],               "dual": True},
     {"id": "bic_sho",     "zh": "股二頭肌短頭", "en": "Biceps femoris (short head)",      "imgs": [33, 34], "nerves": ["com_fib"],              "dual": True},
-    {"id": "semiten",     "zh": "半腱肌",       "en": "Semitendinosus m.",                "imgs": [35, 36], "nerves": ["sciatic", "tibial"],    "dual": False},
-    {"id": "semimem",     "zh": "半膜肌",       "en": "Semimembranosus m.",               "imgs": [37, 38], "nerves": ["sciatic", "tibial"],    "dual": False},
+    {"id": "semiten",     "zh": "半腱肌",       "en": "Semitendinosus m.",                "imgs": [35, 36], "nerves": ["sciatic", "tibial"],    "dual": True},
+    {"id": "semimem",     "zh": "半膜肌",       "en": "Semimembranosus m.",               "imgs": [37, 38], "nerves": ["sciatic", "tibial"],    "dual": True},
     {"id": "fib_lon",     "zh": "腓長肌",       "en": "Fibularis longus m.",              "imgs": [39, 40], "nerves": ["sup_fib"],              "dual": False},
     {"id": "fib_bre",     "zh": "腓短肌",       "en": "Fibularis brevis m.",              "imgs": [41, 42], "nerves": ["sup_fib"],              "dual": False},
     {"id": "tib_ant",     "zh": "脛前肌",       "en": "Tibialis anterior m.",             "imgs": [43, 44], "nerves": ["deep_fib"],             "dual": False},
