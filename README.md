@@ -1,12 +1,6 @@
 # Dr.-Hannibal-Lecter
 
-這是一個為您的「下肢神經肌肉分類遊戲」量身打造的 `README.md` 模板。您可以將以下內容直接複製並儲存為專案根目錄下的 `README.md` 檔案。
 
-如果您有將專案上傳至 GitHub，這個排版將會非常清晰美觀！
-
----
-
-```markdown
 # 🦵 下肢神經肌肉分類遊戲 (Lower Limb Nerve & Muscle Classification Game)
 
 這是一個基於 **Streamlit** 開發的互動式醫學/解剖學教育遊戲。旨在幫助醫學生、物理治療師及相關領域學習者，透過遊戲化的拖曳與點擊操作，輕鬆記憶「下肢肌肉」與「支配神經」的對應關係。
@@ -35,7 +29,6 @@
 ```bash
 pip install streamlit
 
-```
 
 ### 2. 執行應用程式
 
@@ -44,7 +37,7 @@ pip install streamlit
 ```bash
 streamlit run app.py
 
-```
+
 
 執行後，瀏覽器將自動開啟 `http://localhost:8501` 並進入遊戲畫面。
 
@@ -72,11 +65,4 @@ streamlit run app.py
 
 ?????
 
-```
 
----
-**💡 溫馨提示**：
-1. 如果您的 GitHub 專案庫（Repository）有截圖，強烈建議在 `# 🦵 下肢神經肌肉分類遊戲` 下方插入一張遊戲畫面的截圖（語法：`![遊戲畫面](您的圖片連結)`），會讓 README 更有吸引力！
-2. 如果這個專案是開源的，記得在 GitHub 放上正確的 `LICENSE` 檔案。
-
-```
