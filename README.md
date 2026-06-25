@@ -26,9 +26,10 @@
 
 ### 1. 安裝環境與依賴套件
 請確認您的電腦已安裝 Python 3.8 或以上版本。接著安裝 Streamlit：
+
 ```bash
 pip install streamlit
-
+```
 
 ### 2. 執行應用程式
 
@@ -36,7 +37,7 @@ pip install streamlit
 
 ```bash
 streamlit run app.py
-
+```
 
 
 執行後，瀏覽器將自動開啟 `http://localhost:8501` 並進入遊戲畫面。
