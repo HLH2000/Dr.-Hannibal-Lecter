@@ -609,8 +609,24 @@ function syncQP(){{
     const url = new URL(window.parent.location.href);
     if(selected.size > 0) url.searchParams.set('sel',[...selected].join(SEP));
     else url.searchParams.delete('sel');
+    // 修正：只更新網址列 (pushState)，不要再 dispatch popstate 事件！
+    //
+    // 原本的寫法在「每一次點卡片」時都會 dispatchEvent(new Event('popstate'))，
+    // 這會讓 Streamlit 前端誤以為網址列被使用者導覽改變了，進而立刻觸發一次
+    // 完整的 script rerun。當使用者快速連續點選多張卡片(本來就支援多選)時，
+    // 會連續觸發多個 rerun，這些 rerun 會在背景非同步排隊、執行，
+    // 而每個 rerun 都會用「當下那一刻」的 query params 重新產生整個手牌 iframe。
+    // 如果完成順序跟點擊順序不一致(較舊的 rerun 比較新的晚完成)，
+    // 較舊的 rerun 畫面會把較新的選取狀態覆蓋掉，造成選取結果跟畫面顯示不同步，
+    // 等到按下「📥 放入」時，Python 端 place_cards() 讀到的 sel 參數
+    // 就會是過期/不完整的資料 → 卡牌放不進去，而且是隨機發生(常常突發)。
+    //
+    // 視覺上的勾選效果其實已經由上面 render() 在瀏覽器端立即處理完成，
+    // 並不需要每點一次卡片就強迫 Streamlit rerun 才能看到效果。
+    // 只要在使用者按下「📥 放入」這類原生 Streamlit 按鈕、
+    // 真正需要送出 rerun 請求的時候，Streamlit 會直接讀取當下網址列的
+    // 查詢字串，所以這裡只需要 pushState 更新網址，不需要再手動觸發 popstate。
     window.parent.history.pushState(null, '', url.toString());
-    window.parent.dispatchEvent(new Event('popstate'));
   }}catch(e){{}}
 }}
 
