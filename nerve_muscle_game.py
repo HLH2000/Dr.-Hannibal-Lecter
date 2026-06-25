@@ -516,61 +516,61 @@ else:
 *{{box-sizing:border-box;margin:0;padding:0;font-family:'Noto Sans TC',sans-serif;}}
 body{{
   background:transparent;
-  padding:15px 10px 40px 10px;
+  padding:10px 8px 28px 8px;
   overflow-x:auto;
   overflow-y:hidden;
 }}
 .hint{{color:#475569;font-size:0.7rem;font-weight:600;margin-bottom:6px;padding-left:4px;}}
 .row{{
-  display:flex;flex-wrap:nowrap;gap:16px;
-  padding:10px 10px 20px 10px;
+  display:flex;flex-wrap:nowrap;gap:10px;
+  padding:8px 8px 16px 8px;
   width:max-content;
   align-items:flex-start; /* 讓不同高度的卡片頂部切齊 */
 }}
 .card{{
-  flex-shrink:0;width:220px;border-radius:12px;overflow:visible;
-  border:3px solid #94a3b8;background:white;cursor:pointer;position:relative;
-  box-shadow:0 6px 16px rgba(0,0,0,0.12);
+  flex-shrink:0;width:148px;border-radius:10px;overflow:visible;
+  border:2.5px solid #94a3b8;background:white;cursor:pointer;position:relative;
+  box-shadow:0 4px 12px rgba(0,0,0,0.12);
   transition:transform 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease;
   user-select:none;
   /* 取消了原本強制正方形的限制 */
 }}
 .card.sel{{
   border-color:#B91C1C !important;
-  box-shadow:0 0 0 4px rgba(185,28,28,0.18),0 10px 24px rgba(185,28,28,0.25);
-  transform: translateY(-4px);
+  box-shadow:0 0 0 3px rgba(185,28,28,0.18),0 8px 18px rgba(185,28,28,0.25);
+  transform: translateY(-3px);
 }}
 .card.dual{{ border-color:#6D28D9; }}
 .card.dual.sel{{ border-color:#B91C1C !important; }}
 .card.locked-card{{opacity:0.5;cursor:default;}}
 .img-box{{
   width:100%;
-  border-radius:9px 9px 0 0;
+  border-radius:8px 8px 0 0;
   overflow:hidden;
   background:#fff;
 }}
 .img-box img{{
   width:100%;
-  height:auto; /* 讓圖片依照原始比例顯示 */
-  max-height:420px; /* 防止少數超長圖突破天際 */
+  height:auto; /* 讓圖片依照原始比例顯示，完全不裁切 */
+  max-height:260px; /* 限制最大高度避免太佔空間，仍以 contain 完整顯示 */
   object-fit:contain; /* 保證不裁切 */
   display:block;
   pointer-events:none;
 }}
-.lbl{{background:white;border-top:2px solid #e5e7eb;padding:8px 6px;text-align:center;border-radius:0 0 9px 9px;}}
-.lbl .zh{{font-size:18px;font-weight:700;color:#1e293b;line-height:1.3;}}
-.lbl .en{{font-size:13px;color:#64748b;line-height:1.3;margin-top:2px;}}
+.lbl{{background:white;border-top:2px solid #e5e7eb;padding:5px 4px;text-align:center;border-radius:0 0 8px 8px;}}
+.lbl .zh{{font-size:13px;font-weight:700;color:#1e293b;line-height:1.25;}}
+.lbl .en{{font-size:10px;color:#64748b;line-height:1.2;margin-top:1px;}}
 .badge-sel{{
-  position:absolute;top:-10px;right:-10px;z-index:20;
+  position:absolute;top:-8px;right:-8px;z-index:20;
   background:#B91C1C;color:#fff;border-radius:50%;
-  width:32px;height:32px;display:flex;align-items:center;justify-content:center;
-  font-size:16px;font-weight:900;border:3px solid white;
-  box-shadow:0 3px 8px rgba(0,0,0,0.25);
+  width:24px;height:24px;display:flex;align-items:center;justify-content:center;
+  font-size:13px;font-weight:900;border:2.5px solid white;
+  box-shadow:0 2px 6px rgba(0,0,0,0.25);
 }}
 .badge-dual{{
-  position:absolute;top:6px;left:6px;z-index:20;
-  background:#6D28D9;color:#fff;border-radius:6px;
-  padding:3px 8px;font-size:12px;font-weight:800;
+  position:absolute;top:4px;left:4px;z-index:20;
+  background:#6D28D9;color:#fff;border-radius:5px;
+  padding:2px 6px;font-size:9px;font-weight:800;
 }}
 </style></head><body>
 <div class="row" id="row"></div>
@@ -645,8 +645,10 @@ function resize(){{
 setTimeout(resize,150); setTimeout(resize,600); window.addEventListener('load',()=>setTimeout(resize,100));
 </script></body></html>"""
 
-    # 考量到有些圖片可能很長，將 iframe_h 放得更寬裕
-    iframe_h = 550
+    # 卡片縮小後，預留高度也跟著縮小，但仍保留緩衝避免圖片較長時被切到
+    # （圖片本身用 object-fit:contain，空間不夠也只會留白、不會裁切，
+    #   這裡只是讓外層 iframe 容器盡量貼合內容、不要留太多空白）
+    iframe_h = 380
     st.iframe(hand_html, height=iframe_h)
 
 st.divider()
