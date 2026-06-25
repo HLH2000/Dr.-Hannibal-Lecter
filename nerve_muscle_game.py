@@ -513,18 +513,32 @@ else:
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;700;900&display=swap');
 *{{box-sizing:border-box;margin:0;padding:0;font-family:'Noto Sans TC',sans-serif;}}
-body{{background:transparent;padding:6px 4px 24px 4px;overflow-x:auto;overflow-y:hidden;}}
+body{{
+  background:transparent;
+  /* 增加底部 padding 給捲軸極大空間，確保絕對不被裁切 */
+  padding:10px 10px 40px 10px;
+  overflow-x:auto;
+  overflow-y:hidden;
+}}
 .hint{{color:#475569;font-size:0.7rem;font-weight:600;margin-bottom:6px;padding-left:4px;}}
-.row{{display:flex;flex-wrap:nowrap;gap:12px;padding:4px 4px 10px;width:max-content;}}
+.row{{
+  display:flex;flex-wrap:nowrap;gap:16px;
+  /* 確保留有空間讓陰影完整顯示 */
+  padding:10px 10px 20px 10px;
+  width:max-content;
+}}
 .card{{
   flex-shrink:0;width:240px;border-radius:12px;overflow:visible;
   border:3px solid #94a3b8;background:white;cursor:pointer;position:relative;
-  box-shadow:0 3px 10px rgba(0,0,0,0.1);
-  transition:border-color 0.12s,box-shadow 0.12s;user-select:none;
+  box-shadow:0 6px 16px rgba(0,0,0,0.12);
+  transition:transform 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease;
+  user-select:none;
 }}
 .card.sel{{
   border-color:#B91C1C !important;
-  box-shadow:0 0 0 4px rgba(185,28,28,0.18),0 6px 18px rgba(185,28,28,0.15);
+  box-shadow:0 0 0 4px rgba(185,28,28,0.18),0 10px 24px rgba(185,28,28,0.25);
+  /* 選取時稍微往上浮，避免切到底部 */
+  transform: translateY(-4px);
 }}
 .card.dual{{ border-color:#6D28D9; }}
 .card.dual.sel{{ border-color:#B91C1C !important; }}
@@ -604,7 +618,7 @@ setTimeout(resize,150); setTimeout(resize,600); window.addEventListener('load',(
 </script></body></html>"""
 
     n_rows_est = 1
-    iframe_h = 420 # 極大化 iframe 高度，徹底防止被裁掉
+    iframe_h = 460 # 再次加高 iframe 以配合卡片放大與底部邊距
     st.iframe(hand_html, height=iframe_h)
 
 st.divider()
