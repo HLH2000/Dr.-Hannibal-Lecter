@@ -15,7 +15,6 @@ st.set_page_config(
 GITHUB_BASE = "https://raw.githubusercontent.com/HLH2000/Dr.-Hannibal-Lecter/main/"
 MUSCLE_DIR  = GITHUB_BASE + "上肢/Muscle/"
 NERVE_DIR   = GITHUB_BASE + "上肢/Nerve/"
-# 範例：https://raw.githubusercontent.com/HLH2000/Dr.-Hannibal-Lecter/main/上肢/Muscle/muscle_upperlim_001.jpg
 
 def muscle_img(n: int) -> str:
     return f"{MUSCLE_DIR}muscle_upperlim_{n:03d}.jpg"
@@ -38,61 +37,60 @@ NERVES = [
     {"id": "median",    "zh": "正中神經",   "en": "Median n.",               "color": "#065F46", "light": "#D1FAE5"},
     {"id": "ulnar",     "zh": "尺神經",     "en": "Ulnar n.",                "color": "#B45309", "light": "#FEF3C7"},
 ]
-NERVE_MAP  = {n["id"]: n for n in NERVES}
 NERVE_KEYS = [n["id"] for n in NERVES]
 NERVE_KEY_TO_NERVE = {n["id"]: n for n in NERVES}
 
 # ─────────────── 肌肉資料 ───────────────
-# imgs: [說明圖編號, 解剖圖編號]（此處兩者皆暫用同一張圖卡編號，如有獨立說明圖請自行替換第二個數字）
+# 已移除 imgs 雙陣列，直接使用 img 單一數字
 MUSCLES = [
-    {"id": "pect_maj",   "zh": "大胸肌",         "en": "Pectoralis major m.",                          "imgs": [48, 48], "nerves": ["lat_pect", "med_pect"], "dual": True},
-    {"id": "pect_min",   "zh": "小胸肌",         "en": "Pectoralis minor m.",                          "imgs": [47, 47], "nerves": ["med_pect"],             "dual": False},
-    {"id": "lev_scap",   "zh": "提肩胛肌",       "en": "Levator scapulae m.",                          "imgs": [9,  9],  "nerves": ["dor_scap"],             "dual": False},
-    {"id": "rhom_min",   "zh": "小菱型肌",       "en": "Rhomboid minor m.",                            "imgs": [7,  7],  "nerves": ["dor_scap"],             "dual": False},
-    {"id": "rhom_maj",   "zh": "大菱型肌",       "en": "Rhomboid major m.",                            "imgs": [37, 37], "nerves": ["dor_scap"],             "dual": False},
-    {"id": "serr_ant",   "zh": "前鋸肌",         "en": "Serratus anterior m.",                         "imgs": [6,  6],  "nerves": ["long_thor"],            "dual": False},
-    {"id": "supraspin",  "zh": "棘上肌",         "en": "Supraspinatus m.",                             "imgs": [39, 39], "nerves": ["suprascap"],            "dual": False},
-    {"id": "infraspin",  "zh": "棘下肌",         "en": "Infraspinatus m.",                             "imgs": [40, 40], "nerves": ["suprascap"],            "dual": False},
-    {"id": "subscapul",  "zh": "肩胛下肌",       "en": "Subscapularis m.",                             "imgs": [8,  8],  "nerves": ["subscap"],              "dual": False},
-    {"id": "teres_maj",  "zh": "大圓肌",         "en": "Teres major m.",                               "imgs": [41, 41], "nerves": ["subscap"],              "dual": False},
-    {"id": "lat_dorsi",  "zh": "擴背肌",         "en": "Latissimus dorsi m.",                          "imgs": [38, 38], "nerves": ["thoracodor"],           "dual": False},
-    {"id": "deltoid",    "zh": "三角肌",         "en": "Deltoid m.",                                   "imgs": [43, 43], "nerves": ["axillary"],             "dual": False},
-    {"id": "teres_min",  "zh": "小圓肌",         "en": "Teres minor m.",                               "imgs": [42, 42], "nerves": ["axillary"],             "dual": False},
-    {"id": "coracobr",   "zh": "喙肱肌",         "en": "Coracobrachialis m.",                          "imgs": [11, 11], "nerves": ["musculocut"],           "dual": False},
-    {"id": "biceps_br",  "zh": "肱二頭肌",       "en": "Biceps brachii m.",                            "imgs": [10, 10], "nerves": ["musculocut"],           "dual": False},
-    {"id": "brachialis", "zh": "肱肌",           "en": "Brachialis m.",                                "imgs": [32, 32], "nerves": ["musculocut", "radial"], "dual": True},
-    {"id": "triceps_br", "zh": "肱三頭肌",       "en": "Triceps brachii m.",                           "imgs": [44, 44], "nerves": ["radial"],               "dual": False},
-    {"id": "anconeus",   "zh": "肘肌",           "en": "Anconeus m.",                                  "imgs": [17, 17], "nerves": ["radial"],               "dual": False},
-    {"id": "brachiorad", "zh": "肱橈肌",         "en": "Brachioradialis m.",                           "imgs": [20, 20], "nerves": ["radial"],               "dual": False},
-    {"id": "ecr_long",   "zh": "橈側伸腕長肌",   "en": "Extensor carpi radialis longus m.",            "imgs": [33, 33], "nerves": ["radial"],               "dual": False},
-    {"id": "ecr_brev",   "zh": "橈側伸腕短肌",   "en": "Extensor carpi radialis brevis m.",            "imgs": [34, 34], "nerves": ["radial"],               "dual": False},
-    {"id": "supinator",  "zh": "旋後肌",         "en": "Supinator m.",                                 "imgs": [35, 35], "nerves": ["radial"],               "dual": False},
-    {"id": "ext_dig",    "zh": "伸指肌",         "en": "Extensor digitorum m.",                        "imgs": [46, 46], "nerves": ["radial"],               "dual": False},
-    {"id": "edm",        "zh": "伸小指肌",       "en": "Extensor digiti minimi m.",                    "imgs": [19, 19], "nerves": ["radial"],               "dual": False},
-    {"id": "ecu",        "zh": "尺側伸腕肌",     "en": "Extensor carpi ulnaris m.",                    "imgs": [45, 45], "nerves": ["radial"],               "dual": False},
-    {"id": "apl",        "zh": "外展姆長肌",     "en": "Abductor pollicis longus m.",                  "imgs": [2,  2],  "nerves": ["radial"],               "dual": False},
-    {"id": "epb",        "zh": "伸姆短肌",       "en": "Extensor pollicis brevis m.",                  "imgs": [13, 13], "nerves": ["radial"],               "dual": False},
-    {"id": "epl",        "zh": "伸姆長肌",       "en": "Extensor pollicis longus m.",                  "imgs": [12, 12], "nerves": ["radial"],               "dual": False},
-    {"id": "ext_ind",    "zh": "伸食指肌",       "en": "Extensor indicis m.",                          "imgs": [1,  1],  "nerves": ["radial"],               "dual": False},
-    {"id": "pron_teres", "zh": "旋前圓肌",       "en": "Pronator teres m.",                            "imgs": [22, 22], "nerves": ["median"],               "dual": False},
-    {"id": "fcr",        "zh": "橈側屈腕肌",     "en": "Flexor carpi radialis m.",                     "imgs": [36, 36], "nerves": ["median"],               "dual": False},
-    {"id": "palm_long",  "zh": "掌長肌",         "en": "Palmaris longus m.",                           "imgs": [24, 24], "nerves": ["median"],               "dual": False},
-    {"id": "fds",        "zh": "屈指淺肌",       "en": "Flexor digitorum superficialis m.",            "imgs": [5,  5],  "nerves": ["median"],               "dual": False},
-    {"id": "fdp_lat",    "zh": "屈指深肌（外側部）", "en": "Flexor digitorum profundus (Lateral part)", "imgs": [25, 25], "nerves": ["median"],               "dual": False},
-    {"id": "fdp_med",    "zh": "屈指深肌（內側部）", "en": "Flexor digitorum profundus (Medial part)",  "imgs": [16, 16], "nerves": ["ulnar"],                "dual": False},
-    {"id": "fpl",        "zh": "屈姆長肌",       "en": "Flexor pollicis longus m.",                    "imgs": [15, 15], "nerves": ["median"],               "dual": False},
-    {"id": "pron_quad",  "zh": "旋前方肌",       "en": "Pronator quadratus m.",                        "imgs": [23, 23], "nerves": ["median"],               "dual": False},
-    {"id": "apb",        "zh": "外展姆短肌",     "en": "Abductor pollicis brevis m.",                  "imgs": [31, 31], "nerves": ["median"],               "dual": False},
-    {"id": "fpb",        "zh": "屈姆短肌",       "en": "Flexor pollicis brevis m.",                    "imgs": [30, 30], "nerves": ["median", "ulnar"],      "dual": True},
-    {"id": "opp_poll",   "zh": "姆對指肌",       "en": "Opponens pollicis m.",                         "imgs": [29, 29], "nerves": ["median"],               "dual": False},
-    {"id": "lumb_lat",   "zh": "蚓狀肌（外側兩條）", "en": "Lumbricals (Lateral two)",                  "imgs": [21, 21], "nerves": ["median"],               "dual": False},
-    {"id": "lumb_med",   "zh": "蚓狀肌（內側兩條）", "en": "Lumbricals (Medial two)",                   "imgs": [27, 27], "nerves": ["ulnar"],                "dual": False},
-    {"id": "add_poll",   "zh": "內收姆肌",       "en": "Adductor pollicis m.",                         "imgs": [14, 14], "nerves": ["ulnar"],                "dual": False},
-    {"id": "fcu",        "zh": "尺側屈腕肌",     "en": "Flexor carpi ulnaris m.",                      "imgs": [4,  4],  "nerves": ["ulnar"],                "dual": False},
-    {"id": "adm",        "zh": "外展小指肌",     "en": "Abductor digiti minimi m.",                    "imgs": [18, 18], "nerves": ["ulnar"],                "dual": False},
-    {"id": "fdmb",       "zh": "屈小指肌",       "en": "Flexor digiti minimi brevis m.",               "imgs": [28, 28], "nerves": ["ulnar"],                "dual": False},
-    {"id": "opp_dm",     "zh": "小指對指肌",     "en": "Opponens digiti minimi m.",                    "imgs": [26, 26], "nerves": ["ulnar"],                "dual": False},
-    {"id": "inteross",   "zh": "背骨間肌／掌骨間肌", "en": "Dorsal interossei / Palmar interossei",     "imgs": [3,  3],  "nerves": ["ulnar"],                "dual": False},
+    {"id": "pect_maj",   "zh": "大胸肌",         "en": "Pectoralis major m.",                            "img": 48, "nerves": ["lat_pect", "med_pect"], "dual": True},
+    {"id": "pect_min",   "zh": "小胸肌",         "en": "Pectoralis minor m.",                            "img": 47, "nerves": ["med_pect"],             "dual": False},
+    {"id": "lev_scap",   "zh": "提肩胛肌",       "en": "Levator scapulae m.",                            "img": 9,  "nerves": ["dor_scap"],             "dual": False},
+    {"id": "rhom_min",   "zh": "小菱型肌",       "en": "Rhomboid minor m.",                              "img": 7,  "nerves": ["dor_scap"],             "dual": False},
+    {"id": "rhom_maj",   "zh": "大菱型肌",       "en": "Rhomboid major m.",                              "img": 37, "nerves": ["dor_scap"],             "dual": False},
+    {"id": "serr_ant",   "zh": "前鋸肌",         "en": "Serratus anterior m.",                           "img": 6,  "nerves": ["long_thor"],            "dual": False},
+    {"id": "supraspin",  "zh": "棘上肌",         "en": "Supraspinatus m.",                               "img": 39, "nerves": ["suprascap"],            "dual": False},
+    {"id": "infraspin",  "zh": "棘下肌",         "en": "Infraspinatus m.",                               "img": 40, "nerves": ["suprascap"],            "dual": False},
+    {"id": "subscapul",  "zh": "肩胛下肌",       "en": "Subscapularis m.",                               "img": 8,  "nerves": ["subscap"],              "dual": False},
+    {"id": "teres_maj",  "zh": "大圓肌",         "en": "Teres major m.",                                 "img": 41, "nerves": ["subscap"],              "dual": False},
+    {"id": "lat_dorsi",  "zh": "擴背肌",         "en": "Latissimus dorsi m.",                            "img": 38, "nerves": ["thoracodor"],           "dual": False},
+    {"id": "deltoid",    "zh": "三角肌",         "en": "Deltoid m.",                                     "img": 43, "nerves": ["axillary"],             "dual": False},
+    {"id": "teres_min",  "zh": "小圓肌",         "en": "Teres minor m.",                                 "img": 42, "nerves": ["axillary"],             "dual": False},
+    {"id": "coracobr",   "zh": "喙肱肌",         "en": "Coracobrachialis m.",                            "img": 11, "nerves": ["musculocut"],           "dual": False},
+    {"id": "biceps_br",  "zh": "肱二頭肌",       "en": "Biceps brachii m.",                              "img": 10, "nerves": ["musculocut"],           "dual": False},
+    {"id": "brachialis", "zh": "肱肌",           "en": "Brachialis m.",                                  "img": 32, "nerves": ["musculocut", "radial"], "dual": True},
+    {"id": "triceps_br", "zh": "肱三頭肌",       "en": "Triceps brachii m.",                             "img": 44, "nerves": ["radial"],               "dual": False},
+    {"id": "anconeus",   "zh": "肘肌",           "en": "Anconeus m.",                                    "img": 17, "nerves": ["radial"],               "dual": False},
+    {"id": "brachiorad", "zh": "肱橈肌",         "en": "Brachioradialis m.",                             "img": 20, "nerves": ["radial"],               "dual": False},
+    {"id": "ecr_long",   "zh": "橈側伸腕長肌",   "en": "Extensor carpi radialis longus m.",              "img": 33, "nerves": ["radial"],               "dual": False},
+    {"id": "ecr_brev",   "zh": "橈側伸腕短肌",   "en": "Extensor carpi radialis brevis m.",              "img": 34, "nerves": ["radial"],               "dual": False},
+    {"id": "supinator",  "zh": "旋後肌",         "en": "Supinator m.",                                   "img": 35, "nerves": ["radial"],               "dual": False},
+    {"id": "ext_dig",    "zh": "伸指肌",         "en": "Extensor digitorum m.",                          "img": 46, "nerves": ["radial"],               "dual": False},
+    {"id": "edm",        "zh": "伸小指肌",       "en": "Extensor digiti minimi m.",                      "img": 19, "nerves": ["radial"],               "dual": False},
+    {"id": "ecu",        "zh": "尺側伸腕肌",     "en": "Extensor carpi ulnaris m.",                      "img": 45, "nerves": ["radial"],               "dual": False},
+    {"id": "apl",        "zh": "外展姆長肌",     "en": "Abductor pollicis longus m.",                    "img": 2,  "nerves": ["radial"],               "dual": False},
+    {"id": "epb",        "zh": "伸姆短肌",       "en": "Extensor pollicis brevis m.",                    "img": 13, "nerves": ["radial"],               "dual": False},
+    {"id": "epl",        "zh": "伸姆長肌",       "en": "Extensor pollicis longus m.",                    "img": 12, "nerves": ["radial"],               "dual": False},
+    {"id": "ext_ind",    "zh": "伸食指肌",       "en": "Extensor indicis m.",                            "img": 1,  "nerves": ["radial"],               "dual": False},
+    {"id": "pron_teres", "zh": "旋前圓肌",       "en": "Pronator teres m.",                              "img": 22, "nerves": ["median"],               "dual": False},
+    {"id": "fcr",        "zh": "橈側屈腕肌",     "en": "Flexor carpi radialis m.",                       "img": 36, "nerves": ["median"],               "dual": False},
+    {"id": "palm_long",  "zh": "掌長肌",         "en": "Palmaris longus m.",                             "img": 24, "nerves": ["median"],               "dual": False},
+    {"id": "fds",        "zh": "屈指淺肌",       "en": "Flexor digitorum superficialis m.",              "img": 5,  "nerves": ["median"],               "dual": False},
+    {"id": "fdp_lat",    "zh": "屈指深肌（外側部）", "en": "Flexor digitorum profundus (Lateral part)",  "img": 25, "nerves": ["median"],               "dual": False},
+    {"id": "fdp_med",    "zh": "屈指深肌（內側部）", "en": "Flexor digitorum profundus (Medial part)",   "img": 16, "nerves": ["ulnar"],                "dual": False},
+    {"id": "fpl",        "zh": "屈姆長肌",       "en": "Flexor pollicis longus m.",                      "img": 15, "nerves": ["median"],               "dual": False},
+    {"id": "pron_quad",  "zh": "旋前方肌",       "en": "Pronator quadratus m.",                          "img": 23, "nerves": ["median"],               "dual": False},
+    {"id": "apb",        "zh": "外展姆短肌",     "en": "Abductor pollicis brevis m.",                    "img": 31, "nerves": ["median"],               "dual": False},
+    {"id": "fpb",        "zh": "屈姆短肌",       "en": "Flexor pollicis brevis m.",                      "img": 30, "nerves": ["median", "ulnar"],      "dual": True},
+    {"id": "opp_poll",   "zh": "姆對指肌",       "en": "Opponens pollicis m.",                           "img": 29, "nerves": ["median"],               "dual": False},
+    {"id": "lumb_lat",   "zh": "蚓狀肌（外側兩條）", "en": "Lumbricals (Lateral two)",                   "img": 21, "nerves": ["median"],               "dual": False},
+    {"id": "lumb_med",   "zh": "蚓狀肌（內側兩條）", "en": "Lumbricals (Medial two)",                    "img": 27, "nerves": ["ulnar"],                "dual": False},
+    {"id": "add_poll",   "zh": "內收姆肌",       "en": "Adductor pollicis m.",                           "img": 14, "nerves": ["ulnar"],                "dual": False},
+    {"id": "fcu",        "zh": "尺側屈腕肌",     "en": "Flexor carpi ulnaris m.",                        "img": 4,  "nerves": ["ulnar"],                "dual": False},
+    {"id": "adm",        "zh": "外展小指肌",     "en": "Abductor digiti minimi m.",                      "img": 18, "nerves": ["ulnar"],                "dual": False},
+    {"id": "fdmb",       "zh": "屈小指肌",       "en": "Flexor digiti minimi brevis m.",                 "img": 28, "nerves": ["ulnar"],                "dual": False},
+    {"id": "opp_dm",     "zh": "小指對指肌",     "en": "Opponens digiti minimi m.",                      "img": 26, "nerves": ["ulnar"],                "dual": False},
+    {"id": "inteross",   "zh": "背骨間肌／掌骨間肌", "en": "Dorsal interossei / Palmar interossei",      "img": 3,  "nerves": ["ulnar"],                "dual": False},
 ]
 MUSCLE_MAP = {m["id"]: m for m in MUSCLES}
 TOTAL_NEEDED = sum(len(m["nerves"]) for m in MUSCLES)
@@ -108,9 +106,6 @@ def read_selected() -> set:
     if not raw:
         return set()
     return set(raw.split(SEP))
-
-def read_img_mode() -> str:
-    return st.query_params.get("img_mode", "text")
 
 # ══════════════════════════════════════════════
 # 初始化
@@ -137,13 +132,10 @@ if "game_init" not in st.session_state:
     init_game()
 
 selected = read_selected()
-img_mode = read_img_mode()
-
 
 # ──────────────────────────────────────────────
 # 核心邏輯 (使用 On_click Callbacks)
 # ──────────────────────────────────────────────
-
 def place_cards(nerve_id: str):
     """將選中的手牌放入目標神經區"""
     placed  = st.session_state.placed
@@ -191,11 +183,6 @@ def place_cards(nerve_id: str):
         st.session_state.message = "⚠️ 所選卡片已在此神經區或已鎖定"
         st.session_state.message_type = "warning"
 
-def toggle_img_mode():
-    """切換手牌顯示圖片模式"""
-    current = st.query_params.get("img_mode", "text")
-    st.query_params["img_mode"] = "diagram" if current == "text" else "text"
-
 def get_remaining() -> list:
     placed = st.session_state.placed
     out = []
@@ -226,6 +213,8 @@ def remove_card(mid: str, nid: str):
         return
     st.session_state.placed[nid].remove(mid)
     st.session_state.result.pop(key, None)
+    # 除錯優化：若退回卡片時剛好在網址參數中有殘留，也一併清空
+    st.query_params.pop("sel", None)
 
 def submit_answers():
     if st.session_state.locked:
@@ -282,6 +271,7 @@ def do_return_wrong():
             result.pop(key, None)
             count += 1
     st.session_state.return_wrong = False
+    st.query_params.pop("sel", None)
     st.session_state.message = f"↩ 已退回 {count} 張錯誤卡牌至手牌，請重新放置後再提交！"
     st.session_state.message_type = "info"
 
@@ -398,8 +388,8 @@ st.markdown("""
     transition: transform 0.12s, box-shadow 0.12s !important;
 }
 .stButton > button:hover:not([disabled]) {
-    transform: translateY(-1px) !important;
-    box-shadow: 0 6px 16px rgba(0,0,0,0.12) !important;
+    transform: translateY(-1.5px) !important;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15) !important;
 }
 .stButton > button[disabled] { opacity: 0.42 !important; }
 iframe { border: none !important; }
@@ -477,34 +467,28 @@ st.divider()
 # ══════════════════════════════════════════════
 # 手牌區（上方，橫向 JS iframe）
 # ══════════════════════════════════════════════
-img_mode_label = "切換解剖圖" if img_mode == "text" else "切換說明圖"
-hcol1, hcol2 = st.columns([6, 1])
-with hcol1:
-    st.markdown(
-        f'<div class="section-title">🎴 手牌區 <span class="badge-count">剩 {len(rem_cards)} 張</span>'
-        f'<span style="color:#64748b;font-size:0.72rem;font-weight:600;"> 點選卡片（可多選）→ 點下方神經區「📥 放入」</span>'
-        f'<span style="color:#7C3AED;font-size:0.72rem;font-weight:700;"> 🔵 紫框 = 雙重神經支配</span></div>',
-        unsafe_allow_html=True,
-    )
-with hcol2:
-    st.button(img_mode_label, key="toggle_img_btn", on_click=toggle_img_mode)
+st.markdown(
+    f'<div class="section-title">🎴 手牌區 <span class="badge-count">剩 {len(rem_cards)} 張</span>'
+    f'<span style="color:#64748b;font-size:0.75rem;font-weight:600;margin-left:8px;">點選卡片（可多選）→ 點下方神經區「📥 放入」</span>'
+    f'<span style="color:#7C3AED;font-size:0.75rem;font-weight:700;margin-left:8px;">🔵 紫框 = 雙重神經支配</span></div>',
+    unsafe_allow_html=True,
+)
 
 if not rem_cards:
     st.markdown(
-        '<div style="background:#14532D;color:#fff;border-radius:10px;padding:12px 18px;'
-        'text-align:center;font-weight:700;font-size:0.9rem;">🎉 手牌已清空！請點「提交答案」</div>',
+        '<div style="background:linear-gradient(90deg, #14532D, #166534);color:#fff;border-radius:10px;padding:16px 18px;'
+        'text-align:center;font-weight:700;font-size:0.95rem;box-shadow:0 4px 10px rgba(0,0,0,0.1);">🎉 手牌已清空！請點擊下方「提交答案」</div>',
         unsafe_allow_html=True,
     )
 else:
     cards_data = []
     for mid in rem_cards:
         m = MUSCLE_MAP[mid]
-        img_idx = m["imgs"][0] if img_mode == "text" else m["imgs"][1]
         cards_data.append({
             "id":       mid,
             "zh":       m["zh"],
             "en":       m["en"].split("(")[0].strip(),
-            "url":      muscle_img(img_idx),
+            "url":      muscle_img(m["img"]),
             "dual":     m["dual"],
             "selected": mid in selected,
         })
@@ -521,13 +505,12 @@ else:
 *{{box-sizing:border-box;margin:0;padding:0;font-family:'Noto Sans TC',sans-serif;}}
 body{{
   background:transparent;
-  padding:10px 8px 28px 8px;
+  padding:10px 8px 16px 8px;
   overflow-x:auto;
   overflow-y:hidden;
 }}
-.hint{{color:#475569;font-size:0.7rem;font-weight:600;margin-bottom:6px;padding-left:4px;}}
 .row{{
-  display:flex;flex-wrap:nowrap;gap:10px;
+  display:flex;flex-wrap:nowrap;gap:12px;
   padding:8px 8px 16px 8px;
   width:max-content;
   align-items:flex-start;
@@ -535,14 +518,18 @@ body{{
 .card{{
   flex-shrink:0;width:148px;border-radius:10px;overflow:visible;
   border:2.5px solid #94a3b8;background:white;cursor:pointer;position:relative;
-  box-shadow:0 4px 12px rgba(0,0,0,0.12);
+  box-shadow:0 4px 10px rgba(0,0,0,0.08);
   transition:transform 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease;
   user-select:none;
 }}
+.card:hover {{
+  transform: translateY(-2px);
+  box-shadow:0 6px 14px rgba(0,0,0,0.12);
+}}
 .card.sel{{
   border-color:#B91C1C !important;
-  box-shadow:0 0 0 3px rgba(185,28,28,0.18),0 8px 18px rgba(185,28,28,0.25);
-  transform: translateY(-3px);
+  box-shadow:0 0 0 3px rgba(185,28,28,0.15),0 8px 18px rgba(185,28,28,0.22);
+  transform: translateY(-4px);
 }}
 .card.dual{{ border-color:#6D28D9; }}
 .card.dual.sel{{ border-color:#B91C1C !important; }}
@@ -620,7 +607,7 @@ function syncQP(){{
 render();
 
 function resize(){{
-  const h = document.documentElement.scrollHeight + 8;
+  const h = document.documentElement.scrollHeight + 4;
   try{{
     window.parent.document.querySelectorAll('iframe').forEach(f=>{{
       try{{
@@ -632,7 +619,7 @@ function resize(){{
 setTimeout(resize,150); setTimeout(resize,600); window.addEventListener('load',()=>setTimeout(resize,100));
 </script></body></html>"""
 
-    iframe_h = 380
+    iframe_h = 360
     st.iframe(hand_html, height=iframe_h)
 
 st.divider()
@@ -693,8 +680,7 @@ for col_widget, nerve_list in [(col_l, left_nerves), (col_r, right_nerves)]:
                             key    = f"{mid}|{nid}"
                             is_lkd = key in scored
                             res    = result.get(key)
-                            img_i  = m["imgs"][0] if img_mode == "text" else m["imgs"][1]
-                            url    = muscle_img(img_i)
+                            url    = muscle_img(m["img"])
 
                             if is_lkd or res == "correct":
                                 pw, ov_c, ov_t, lc = "pc", "c", "✓", "lc"
@@ -737,7 +723,7 @@ with b2:
     st.button("🔄 重新開始", use_container_width=True, on_click=restart_game)
 
 st.markdown(
-    f'<div style="text-align:center;color:#94a3b8;font-size:0.72rem;margin-top:6px;">'
+    f'<div style="text-align:center;color:#94a3b8;font-size:0.75rem;margin-top:6px;font-weight:500;">'
     f'{len(MUSCLES)} 塊肌肉 ✕ 多神經支配 → 共 {TOTAL_NEEDED} 道題｜'
     f'雙重神經支配肌肉（🔵紫框）需分別放入兩個神經區</div>',
     unsafe_allow_html=True,
