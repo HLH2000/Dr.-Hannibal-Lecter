@@ -41,7 +41,6 @@ NERVE_KEYS = [n["id"] for n in NERVES]
 NERVE_KEY_TO_NERVE = {n["id"]: n for n in NERVES}
 
 # ─────────────── 肌肉資料 ───────────────
-# 已移除 imgs 雙陣列，直接使用 img 單一數字
 MUSCLES = [
     {"id": "pect_maj",   "zh": "大胸肌",         "en": "Pectoralis major m.",                            "img": 48, "nerves": ["lat_pect", "med_pect"], "dual": True},
     {"id": "pect_min",   "zh": "小胸肌",         "en": "Pectoralis minor m.",                            "img": 47, "nerves": ["med_pect"],             "dual": False},
@@ -99,7 +98,7 @@ BASE_SCORE = 50
 
 
 # ══════════════════════════════════════════════
-# query_params 讀寫輔助（JS 寫 selected，Python 讀）
+# query_params 讀寫輔助
 # ══════════════════════════════════════════════
 def read_selected() -> set:
     raw = st.query_params.get("sel", "")
@@ -158,7 +157,6 @@ def place_cards(nerve_id: str):
         if mid in placed[nerve_id]:
             continue
 
-        # 非雙重神經支配：先從其他分類移除（未批改的）
         if not m["dual"]:
             for other_nid in NERVE_KEYS:
                 if other_nid != nerve_id and mid in placed[other_nid]:
@@ -172,11 +170,10 @@ def place_cards(nerve_id: str):
         result.pop(f"{mid}|{nerve_id}", None)
         count += 1
 
-    # 清空選擇參數
     st.query_params.pop("sel", None)
 
     if count:
-        nname = NERVE_KEY_TO_NERVE[nerve_id]["zh"]
+        nname = NERVE_KEY_TO_NERVE[nerve_id]["en"]
         st.session_state.message = f"✅ 成功放入 {count} 張至【{nname}】"
         st.session_state.message_type = "success"
     else:
@@ -213,7 +210,6 @@ def remove_card(mid: str, nid: str):
         return
     st.session_state.placed[nid].remove(mid)
     st.session_state.result.pop(key, None)
-    # 除錯優化：若退回卡片時剛好在網址參數中有殘留，也一併清空
     st.query_params.pop("sel", None)
 
 def submit_answers():
@@ -251,7 +247,7 @@ def submit_answers():
         st.session_state.return_wrong = False
     else:
         wp = get_wrong_pairs()
-        wnames = "、".join(MUSCLE_MAP[m]["zh"] for m, _ in wp[:5]) + ("…" if len(wp) > 5 else "")
+        wnames = "、".join(MUSCLE_MAP[m]["en"].split("(")[0].strip() for m, _ in wp[:5]) + ("…" if len(wp) > 5 else "")
         st.session_state.message = (
             f"批改完成：✅ 答對 {new_correct} 題 ❌ 答錯 {wrong} 題 ＋{new_pts} 分"
             + (f"\n錯誤：{wnames}" if wp else "")
@@ -337,7 +333,7 @@ st.markdown("""
     padding: 8px 14px; font-weight: 800; color: #FFFFFF;
     display: flex; align-items: center; justify-content: space-between;
 }
-.nerve-hdr .nerve-en { font-size: 0.72rem; font-weight: 600; opacity: 0.85; }
+.nerve-hdr .nerve-zh { font-size: 0.75rem; font-weight: 600; opacity: 0.85; margin-top: 2px; }
 .nerve-hdr .nerve-cnt {
     background: rgba(0,0,0,0.28); border-radius: 50px;
     padding: 2px 9px; font-size: 0.72rem; font-weight: 700;
@@ -355,10 +351,9 @@ st.markdown("""
 .pcard.pw { border-color: #B91C1C; }
 .pcard-img { width: 100%; aspect-ratio: 1; object-fit: contain; display: block; background: #fff; }
 .pcard-lbl {
-    text-align: center; padding: 3px 2px;
+    text-align: center; padding: 4px 2px;
     border-top: 1.5px solid #e5e7eb;
-    font-size: 9px; font-weight: 700; color: #1e293b;
-    line-height: 1.3; background: white;
+    color: #1e293b; line-height: 1.2; background: white;
 }
 .pcard-lbl.lc { background: #14532D; color: #86efac; }
 .pcard-lbl.lw { background: #7f1d1d; color: #fca5a5; }
@@ -384,7 +379,7 @@ st.markdown("""
 }
 .stButton > button {
     border-radius: 8px !important; font-weight: 800 !important;
-    font-size: 0.8rem !important;
+    font-size: 0.85rem !important;
     transition: transform 0.12s, box-shadow 0.12s !important;
 }
 .stButton > button:hover:not([disabled]) {
@@ -501,7 +496,7 @@ else:
     hand_html = f"""<!DOCTYPE html>
 <html><head><meta charset="utf-8">
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;700;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;600;700;800;900&display=swap');
 *{{box-sizing:border-box;margin:0;padding:0;font-family:'Noto Sans TC',sans-serif;}}
 body{{
   background:transparent;
@@ -548,9 +543,9 @@ body{{
   display:block;
   pointer-events:none;
 }}
-.lbl{{background:white;border-top:2px solid #e5e7eb;padding:5px 4px;text-align:center;border-radius:0 0 8px 8px;}}
-.lbl .zh{{font-size:13px;font-weight:700;color:#1e293b;line-height:1.25;}}
-.lbl .en{{font-size:10px;color:#64748b;line-height:1.2;margin-top:1px;}}
+.lbl{{background:white;border-top:2px solid #e5e7eb;padding:6px 4px;text-align:center;border-radius:0 0 8px 8px;}}
+.lbl .en{{font-size:14px;font-weight:800;color:#1e293b;line-height:1.15;}}
+.lbl .zh{{font-size:11px;font-weight:600;color:#64748b;line-height:1.2;margin-top:3px;}}
 .badge-sel{{
   position:absolute;top:-8px;right:-8px;z-index:20;
   background:#B91C1C;color:#fff;border-radius:50%;
@@ -582,7 +577,7 @@ function render(){{
       (isSel ? '<div class="badge-sel">✓</div>' : '') +
       (c.dual ? '<div class="badge-dual">雙重</div>' : '') +
       `<div class="img-box"><img src="${{c.url}}" loading="lazy"></div>` +
-      `<div class="lbl"><div class="zh">${{c.zh}}</div><div class="en">${{c.en}}</div></div>`;
+      `<div class="lbl"><div class="en">${{c.en}}</div><div class="zh">${{c.zh}}</div></div>`;
     if(!LOCKED){{
       div.addEventListener('click',()=>{{
         if(selected.has(c.id)) selected.delete(c.id);
@@ -619,7 +614,7 @@ function resize(){{
 setTimeout(resize,150); setTimeout(resize,600); window.addEventListener('load',()=>setTimeout(resize,100));
 </script></body></html>"""
 
-    iframe_h = 360
+    iframe_h = 380
     st.iframe(hand_html, height=iframe_h)
 
 st.divider()
@@ -653,15 +648,15 @@ for col_widget, nerve_list in [(col_l, left_nerves), (col_r, right_nerves)]:
             st.markdown(
                 f'<div class="nerve-zone" style="border:2px solid {color};">'
                 f'<div class="nerve-hdr" style="background:{color};">'
-                f'<div><span style="font-size:0.88rem;">{nerve["zh"]}</span>'
-                f'<div class="nerve-en">{nerve["en"]}</div></div>'
+                f'<div><span style="font-size:1.05rem; font-weight:900;">{nerve["en"]}</span>'
+                f'<div class="nerve-zh">{nerve["zh"]}</div></div>'
                 f'<span class="nerve-cnt">{cnt} 張</span>'
                 f'</div><div class="nerve-body">',
                 unsafe_allow_html=True,
             )
 
             st.button(
-                f"📥 放入【{nerve['zh']}】",
+                f"📥 放入【{nerve['en']}】",
                 key=f"put_{nid}",
                 on_click=place_cards,
                 args=(nid,),
@@ -681,6 +676,7 @@ for col_widget, nerve_list in [(col_l, left_nerves), (col_r, right_nerves)]:
                             is_lkd = key in scored
                             res    = result.get(key)
                             url    = muscle_img(m["img"])
+                            en_short = m["en"].split("(")[0].strip()
 
                             if is_lkd or res == "correct":
                                 pw, ov_c, ov_t, lc = "pc", "c", "✓", "lc"
@@ -696,8 +692,10 @@ for col_widget, nerve_list in [(col_l, left_nerves), (col_r, right_nerves)]:
                                 f'<div class="pcard-wrap">'
                                 f'<div class="pcard {pw}">{ov_html}{dual_html}'
                                 f'<img src="{url}" class="pcard-img" loading="lazy">'
-                                f'<div class="pcard-lbl {lc}">{m["zh"]}</div>'
-                                f'</div></div>',
+                                f'<div class="pcard-lbl {lc}">'
+                                f'<div style="font-size:9.5px;font-weight:800;line-height:1.15;word-wrap:break-word;">{en_short}</div>'
+                                f'<div style="font-size:8px;font-weight:600;opacity:0.85;margin-top:2px;">{m["zh"]}</div>'
+                                f'</div></div></div>',
                                 unsafe_allow_html=True,
                             )
 
