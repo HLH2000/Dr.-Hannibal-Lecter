@@ -11,10 +11,11 @@ st.set_page_config(
     initial_sidebar_state="collapsed",
 )
 
-# ─────────────── 圖片路徑（請依實際存放路徑修改） ───────────────
-BASE_DIR    = "上肢/"
-MUSCLE_DIR  = BASE_DIR + "Muscle/"
-NERVE_DIR   = BASE_DIR + "Nerve/"
+# ─────────────── GitHub 圖片路徑 ───────────────
+GITHUB_BASE = "https://raw.githubusercontent.com/HLH2000/Dr.-Hannibal-Lecter/main/"
+MUSCLE_DIR  = GITHUB_BASE + "上肢/Muscle/"
+NERVE_DIR   = GITHUB_BASE + "上肢/Nerve/"
+# 範例：https://raw.githubusercontent.com/HLH2000/Dr.-Hannibal-Lecter/main/上肢/Muscle/muscle_upperlim_001.jpg
 
 def muscle_img(n: int) -> str:
     return f"{MUSCLE_DIR}muscle_upperlim_{n:03d}.jpg"
